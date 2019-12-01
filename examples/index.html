@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>下单-测试paySDK</title>
+  <style>
+    button {
+      margin: 8px;
+    }
+  </style>
+  <script src="js/zepto.min.js"></script>
+  <script src="paySDK.umd.js"></script>
+</head>
+<body>
+  <button>下单</button>
+  <div id="game-content"></div>
+  <script>
+    var _decodeSearch = function(url) {
+      var obj = {};
+      if (!url) {
+        return obj;
+      }
+      var search = url.match(/\?([^#]*)/);
+      if (search) {
+        var search0 = search[1].split('&');
+        for (var i = 0; i < search0.length; i++) {
+          var pair = search0[i].split('=');
+          if (pair.length === 2) {
+            obj[pair[0]] = decodeURIComponent(pair[1]);
+          }
+        }
+      }
+      return obj;
+    };
+    document.querySelector('button').onclick = function () {
+      var baseURL = 'http://api.pay.tfinger.com';
+      $.ajax({
+        type: 'POST',
+        dataType: 'json',
+        url: baseURL + '/h5/create/order',
+        success: function (res) {
+          let orderInfo = _decodeSearch(res.data.pay_url);
+          orderInfo.order_amount = orderInfo.order_amount
+            ? orderInfo.order_amount / 100
+            : 0;
+          console.log('h5支付', res.data.pay_url, orderInfo);
+          paySDK.showCashBox(
+            document.getElementById('game-content'),
+            orderInfo,
+            function(success) {
+              console.log('success', success);
+            },
+            function(fail) {
+              console.log('fail', fail);
+            },
+          );
+        },
+        error: function (err) {
+          console.log(err)
+        }
+      });
+    };
+  </script>
+</body>
+</html>

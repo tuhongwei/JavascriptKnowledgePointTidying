@@ -39,3 +39,25 @@
    }
    return result;
  };
+
+ /* map实现
+  *
+  */
+ // 1. for循环
+ Array.prototype.iMap = function(fn, context) {
+  let arr = Array.prototype.slice.call(this);
+  let mappedArr = [];
+  for(let i = 0; i < arr.length; i++) {
+    // 判断是否为稀疏数组
+    if (!arr.hasOwnProperty(i)) continue;
+    mappedArr[i] = fn.call(context, arr[i], i, this);
+  }
+  return mappedArr;
+ };
+ // 2. reduce实现
+ Array.prototype.iMap1 = function(fn, context) {
+  let arr = Array.prototype.slice.call(this);
+  return arr.reduce((pre, cur, index) => {
+    return [...pre, fn.call(context, cur, index, this)];
+  }, []);
+ };

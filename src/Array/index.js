@@ -7,24 +7,26 @@
   */
 
  // 1. ES10 flat方法
- // 2. 
- export function flatten(arr) {
+ // 2.
+ Array.prototype.iFlat = function() {
+   let arr = Array.prototype.slice.call(this);
    while (arr.some(item => Array.isArray(item))) {
      arr = [].concat(...arr);
    }
    return arr;
- }
+ };
 
  /**
   * 去重
   */
 
- // 1. ES6 Set 
+ // 1. ES6 Set
  // Array.from(new Set(arr)) 或者 [...new Set(arr)]
- // 2. 
- export function distinct(arr) {
+ // 2.
+ Array.prototype.iDistinct = function() {
+   let arr = Array.prototype.slice.call(this);
    let result = [],
-   i, 
+   i,
    j,
    len = arr.length;
    for(i = 0; i < len; i++) {
@@ -36,4 +38,4 @@
      result.push(arr[i]);
    }
    return result;
- }
+ };

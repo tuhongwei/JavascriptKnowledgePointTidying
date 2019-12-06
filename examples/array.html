@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>测试Array的方法</title>
+</head>
+<body>
+  <script src="../src/Array/index.js"></script>
+  <script>
+    var a = [1,2,3,,5,6,6,5,8,6,11,[,2],[1,[2,3]],[[[2]]]];
+    console.log(a[3])
+    var a1 = a.iFlat();
+    var a2 = a.iDistinct();
+    var a3 = a.iMap((item, index) => {
+      return item + index;
+    });
+    var a4 = a.iMap1((item, index) => {
+      return item + index;
+    });
+    console.log('flat', a1);
+    console.log('去重', a2);
+    console.log('map', a3);
+    console.log('map1', a4);
+  </script>
+</body>
+</html>

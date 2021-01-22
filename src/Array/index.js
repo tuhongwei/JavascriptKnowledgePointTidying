@@ -8,8 +8,16 @@
 
  // 1. ES10 flat方法
  // 2.
- Array.prototype.iFlat = function() {
+ Array.prototype.iFlat = function(depth = 1) {
    let arr = Array.prototype.slice.call(this);
+   if (depth === 0) return arr;
+   return arr.reduce((acc, cur) => {
+    if (Array.isArray(cur)) {
+      return [...acc, ...cur.iFlat(depth - 1)];
+    } else {
+      return [...acc, cur];
+    }
+   }, []);
    while (arr.some(item => Array.isArray(item))) {
      arr = [].concat(...arr);
    }
